@@ -18,151 +18,41 @@
 
 ### Exercice 1. Commandes de base
 
-**1. Dans quels dossiers bash trouve-t-on les commandes tapées par l’utilisateur ?**
+**Donnez les commandes répondant aux questions suivantes :**
 
-*Les commandes tapées par l'utilisateur se trouvent dans les fichiers spécifiés par la variable d'environnement ``PATH``. On peut les afficher avec la commande suivante :*
+**1. Quels sont les 5 derniers paquets installés sur votre machine ?**
 
-``printenv PATH``
-
-*Résultat :*
-
-``/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin``
-
-*Note: les dossier sont séparés par ``:``.*
 
 &nbsp;
 
-**2. Quelle variable d’environnement permet à la commande cd tapée sans argument de vous ramener dans
-votre répertoire personnel ?**
+**2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
+Comment explique-t-on la (petite) différence de comptage ?**
 
-*La variable d'environnement ``$HOME`` (faire ``cd`` revient à faire ``cd $HOME``).*
-
-&nbsp;
-
-**3. Explicitez le rôle des variables LANG, PWD, OLDPWD, SHELL et _.**
-
-- *``LANG``: spécifie la langue et l'encoding utilisés par le système.*
-
-``printenv LANG`` donne ``fr_FR.UTF-8``
-
-- *``PWD``: contient le chemin courant.*
-
-- *``OLWPWD``: contient le dernier chemin courant (utilisé par exemple par cd -).*
-
-- *``SHELL``: le chemin vers la commande shell actuelle (/bin/bash).*
-
-- *``_``: le chemin du programme exécuté*
 
 &nbsp;
 
-**4. Créez une variable locale MY_VAR (le contenu n’a pas d’importance). Vérifiez que la variable existe.**
+**3. Combien de paquets sont disponibles en téléchargement ?**
 
-```bash
-MY_VAR="testvar"; echo $MY_VAR
-```
-
-*Résultat :*
-
-```bash
-testvar
-```
 
 &nbsp;
 
-**5. Tapez ensuite la commande bash. Que fait-elle ? La variable MY_VAR existe-t-elle ? Expliquez. A la fin
-de cette question, tapez la commande exit pour revenir dans votre session initiale.**
+**4. Créer un alias “maj” qui met à jour le système**
 
-*La commande bash ouvre une nouvelle session shell, ce qui réinitialise les variables d'environnement.*
-
-```bash
-bash
-echo $MY_VAR
-```
-
-*Résultat (ligne vide) :*
-
-```bash
-
-```
-
-*Suite :*
-
-```bash
-exit
-echo $MY_VAR
-```
-
-*Résultat  :*
-
-```bash
-testvar
-```
 
 &nbsp;
 
-**6. Transformez MY_VAR en une variable d’environnement et recommencez la question précédente. Expliquez.**
+**5. A quoi sert le paquet fortunes ? Installez-le.**
 
-```bash
-export MY_VAR='testvar' && printenv MY_VAR
-```
-
-*Résultat  :*
-
-```bash
-testvar
-```
-
-*La variable MY_VAR est toujours disponible après avoir exécuté ``bash`` car c'est une variable d'environnement (globale), et non une variable locale.*
 
 &nbsp;
 
-**7. Créer la variable d’environnement NOMS ayant pour contenu vos noms de binômes séparés par un espace.
-Afficher la valeur de NOMS pour vérifier que l’affectation est correcte.**
+**6. Quels paquets proposent de jouer au sudoku ?**
 
-```bash
-export NOMS='GIRERD RETUREAU' && printenv NOMS
-```
-
-*Résultat  :*
-
-```bash
-GIRERD RETUREAU
-```
 
 &nbsp;
 
-**8. Ecrivez une commande qui affiche ”Bonjour à vous deux, binôme1 binôme2 !” (où binôme1 et binôme2
-sont vos deux noms) en utilisant la variable NOMS.**
+**7. Lister les derniers paquets installés explicitement avec la commande apt install**
 
-``echo "Bonjour à vous deux, $NOMS !"``
-
-*Résultat :*
-
-``Bonjour à vous deux, GIRERD RETUREAU !``
-
-&nbsp;
-
-**9. Quelle différence y a-t-il entre donner une valeur vide à une variable et l’utilisation de la commande
-unset ?**
-
-*Dans le cas d'une valeur vide, la variable est toujours définie, peut être utilisée et modifiée, mais elle ne contient rien.*
-
-*Dans le cas de unset, la variable n'existe plus et générera une erreur en cas de lecture.*
-
-&nbsp;
-
-**10. Utilisez la commande echo pour écrire exactement la phrase : $HOME = chemin (où chemin est votre
-dossier personnel d’après bash)**
-
-```bash
-echo "\$HOME = $HOME"
-```
-
-*Résultat :*
-
-```bash
-$HOME = /home/herysia
-```
 
 &nbsp;
 
@@ -170,30 +60,22 @@ $HOME = /home/herysia
 
 &nbsp;
 
-## Programmation Bash
+### Exercice 2
 
-### Exercice 2. Contrôle de mot de passe
+**1. A partir de quel paquet est installée la commande ls ?**
 
-**Écrivez un script testpwd.sh qui demande de saisir un mot de passe et vérifie s’il correspond ou non au contenu d’une variable PASSWORD dont le contenu est codé en dur dans le script. Le mot de passe saisi par l’utilisateur ne doit pas s’aﬀicher.**
+*Réponse*
 
-```bash
-testpwd.sh:
+**2. Comment obtenir cette information en une seule
+commande, pour n’importe quel programme (indice : la réponse est dans le poly de cours 2, dans la liste des
+commandes utiles) ?**
 
-#!/bin/bash
+*Réponse*
 
-PASSWORD="azerty"
+**3. Utilisez la réponse à pour écrire un script appelé origine-commande (sans l’extension
+.sh) prenant en argument le nom d’une commande, et indiquant quel paquet l’a installée.**
 
-read -s -p "Tapez votre mot de passe (il ne sera pas affiché à l'écran) : " userPassword
-
-echo -e '\n'
-
-if echo $userPassword | grep -q $PASSWORD 2>/dev/null
-then 
-        echo "Votre mot de passe est trop faible, il contient des termes interdits."
-else
-        echo "Mot de passe correct, il ne contient pas de terme interdit."
-fi
-```
+*Réponse*
 
 &nbsp;
 
@@ -201,38 +83,12 @@ fi
 
 &nbsp;
 
-### Exercice 3. Expressions rationnelles
+### Exercice 3
 
-**Ecrivez un script qui prend un paramètre et utilise la fonction suivante pour vérifier que ce paramètre est un nombre réel :**
+**Ecrire une commande qui affiche “INSTALLÉ” ou “NON INSTALLÉ” selon le nom et le statut du package
+spécifié dans cette commande.**
 
-```bash
-rationnelles.sh:
-
-#!/bin/bash
-
-function is_number
-{
-	re='^[+-]?[0-9]+([.][0-9]+)?$'
-	if ! [[ $1 =~ $re ]]
-	then
-		return 1
-	else
-		return 0
-	fi
-}
-
-if [ $# -ne 1 ]
-then
-	echo "Merci d'utiliser un unique paramètre"
-else
-	if is_number  "$1" != 1
-	then
-		echo "$1 est un nombre"
-	else
-		echo "$1 n'est pas un nombre"
-	fi
-fi
-```
+*Réponse*
 
 &nbsp;
 
@@ -240,28 +96,10 @@ fi
 
 &nbsp;
 
-### Exercice 4. Contrôle d'utilisateur
+### Exercice 4
 
-**Écrivez un script qui vérifie l’existence d’un utilisateur dont le nom est donné en paramètre du script. Si le script est appelé sans nom d’utilisateur, il aﬀiche le message : ”Utilisation : *nom_du_script* nom_utilisateur”,où nom_du_script est le nom de votre script récupéré automatiquement (si vous changez le nom de votre script, le message doit changer automatiquement).**
-
-```bash
-userCheck.sh:
-
-#!/bin/bash
-
-if [ $# = 0 ]
-then
-        echo "Utilisation : $0 nom_utilisateur"
-else
-        if cut -d: -f1 /etc/passwd | grep -q $1 2>/dev/null
-        then
-                echo "L'utilisateur $1 existe dans la base de données."
-        else
-                echo "L'utilisateur $1 n'existe pas dans la base de données."
-        fi
-fi
-
-```
+**Lister les programmes livrés avec coreutils. A quoi sert la commande ’[’ et comment afficher ce qu’elle
+retourne ?**
 
 &nbsp;
 
@@ -269,27 +107,9 @@ fi
 
 &nbsp;
 
-### Exercice 5. Factorielle
+### Exercice 5 : aptitude
 
-**Écrivez un programme qui calcule la factorielle d’un entier naturel passé en paramètre (on supposera que l’utilisateur saisit toujours un entier naturel).**
-
-```bash
-factorielle.sh:
-
-#!/bin/bash
-
-n=$1
-resultat=1
-
-while [ $n -ne 0 ]
-do
-	resultat=$(($resultat * $n))
-	n=$(($n - 1))
-done
-
-echo "$resultat"
-
-```
+**Installez le paquet emacs à l’aide de la version graphique d’aptitude**
 
 &nbsp;
 
@@ -297,36 +117,17 @@ echo "$resultat"
 
 &nbsp;
 
-### Exercice 6. Le juste prix
+### Exercice 6 : Installation d’un paquet par PPA
 
-**Écrivez un script qui génère un nombre aléatoire entre 1 et 1000 et demande à l’utilisateur de le deviner.Le programme écrira ”C’est plus!”, ”C’est moins!” ou ”Gagné!” selon les cas (vous utiliserez $RANDOM).**
+**1. Installer la version Oracle de Java (avec l’ajout des PPA)**
 
 ```bash
-justePrix.sh:
-
-#!/bin/bash
-
-echo "Bienvenue dans notre grand jeu du juste prix ! Devinez le nombre aléatoire (entre 1 et 1000)."
-
-random=$(($RANDOM%100))
-
-read -p 'Saisissez un nombre entre 1 et 1000 : ' userInput
-
-
-while [ $userInput -ne $random ]
-do
-	if [ $userInput -gt $random ]
-	then
-		echo -e "C'est moins !"
-	else
-		echo -e "C'est plus !"
-	fi
-	read -p 'Saissez un nombre entre 1 et 1000 : ' userInput
-done
-
-echo "Gagné !"
-
+sudo add-apt-repository ppa:linuxuprising/java
+sudo apt update
+sudo apt install oracle-java11-installer
 ```
+
+**2. Vérifiez qu’un nouveau fichier a été créé dans /etc/apt/sources.list.d. Que contient-il ?**
 
 &nbsp;
 
@@ -334,132 +135,164 @@ echo "Gagné !"
 
 &nbsp;
 
-### Exercice 7. Statistiques
+### Exercice 7. Création de dépôt personnalisé
 
-**1. Écrivez un script qui prend en paramètres trois entiers (entre -100 et +100) et aﬀiche le min, le max et la moyenne. Vous pouvez réutiliser la fonction de l’exercice 3 pour vous assurer que les paramètres sont bien des entiers.**
+**Dans cet exercice, vous allez créer vos propres paquets et dépôts, ce qui vous permettra de gérer les
+programmes que vous écrivez comme s’ils provenaient de dépôts officiels.**
 
-**2. Généralisez le programme à un nombre quelconque de paramètres (pensez à SHIFT).**
+##### Création d’un paquet Debian avec dpkg-deb
 
-```bash
-statistiques.sh:
+**1. Dans le dossier scripts créé lors du TP 2, créez un sous-dossier origine-commande où vous créerez un
+sous-dossier DEBIAN, ainsi que l’arborescence usr/local/bin où vous placerez le script écrit à l’exercice
+2**
 
-#!/bin/bash
+**2. Dans le dossier DEBIAN, créez un fichier control avec les champs suivants :
 
-moyenne=0
-min=101
-max=-101
+**Package: origine-commande #nom du paquet**
 
-for nombre in $*; do
-	moyenne= $(($moyenne + nombre))
-	if [ nombre -lt min ];
-	then
-		min=$nombre
-	fi
-	if [ nombre -gt max ];
-	then
-		max=$nombre
-	fi
-done
+**Version: 0.1 #numéro de version**
 
-moyenne=$(($moyenne/$#))
+**Maintainer: Foo Bar #votre nom**
 
-echo "La moyenne est de $moyenne, le maximum de $max et le minimum de $min"
+**Architecture: all #les architectures cibles de notre paquet (i386, amd64...)**
 
-```
+**Description: Cherche l'origine d'une commande**
 
-**3. Modifiez votre programme pour que les notes ne soient plus données en paramètres, mais saisies et stockées au fur et à mesure dans un tableau.**
+**Section: utils #notre programme est un utilitaire**
+
+**Priority: optional #ce n'est pas un paquet indispendable**
+
+**3. Revenez dans le dossier parent de origine-commande (normalement, c’est votre $HOME) et tapez la
+commande suivante pour construire le paquet :**
 
 ```bash
-#!/bin/bash
-function is_number
-{
-re='^[+-]?[0-9]+([.][0-9]+)?$'
-
-if [[ $1 =~ $re ]]
-then
-	# if [[ $1 < -100 || $1 > 100 ]]; then
-	if [ $1 -gt 100 ] || [ $1 -lt -100 ] ; then
-		return 2
-	else
-		return 1
-	fi
-else
-	return 0
-fi
-}
-echo 'Entrez des entiers entre -100 et 100, à chaque fois, appuyez sur entrer, quand vous avez fini appuyez sur entrer sans rien écrire'
-last=''
-count=0
-params=()
-while true
-do
-	read last
-	if [[ $last == '' ]]
-	then
-		break
-	fi
-	is_number $last
-	ret=$?
-	if [ $ret -eq 0 ]
-	then
-		echo "$last n'est pas un nombre"
-	elif [ $ret -eq 2 ]
-	then
-		echo "$last n'est pas dans la range [-100:100]"
-	else
-		params[$count]=$last
-		count=$(( $count + 1 ))
-	fi
-done
-
-min=${params[0]}
-max=${params[0]}
-total=0
-for i in $(seq 0 $(($count-2)))
-do
-	param=${params[$i]}
-	if [[ $param < $min ]]; then
-		min=$param
-	fi
-	if [[ $max < $param ]]; then
-		max=$param
-	fi
-	total=$(($total + $param))
-done
-echo "Min: $min"
-echo "Max: $max"
-moy=$(echo "$total / $(( $count - 1 ))" | bc -l)
-printf 'Moyenne %.3f\n' $moy
+dpkg-deb --build origine-commande
 ```
 
-&nbsp;
+**Félicitations ! Vous avez créé votre propre paquet !**
 
-***
+#### Création du dépôt personnel avec reprepro
 
-&nbsp;
+**1. Dans votre dossier personnel, commencez par créer un dossier repo-cpe. Ce sera la racine de votre
+dépôt**
 
-### Exercice 8. Pour les plus rapides (fait à 16h30 VROUM VROUM)
+**2. Ajoutez-y deux sous-dossiers : conf (qui contiendra la configuration du dépôt) et packages (qui contiendra
+nos paquets)**
 
-**Écrivez un script qui aﬀiche les combinaisons possibles de couleurs (cf. TP 1) :**
+**3. Dans conf, créez le fichier distributions suivant :**
 
-![colored Bash syntax](https://github.com/cpe-lyon/tp-2-girerd_retureau/blob/master/couleurBashExemple.png)
+**Origin: Un nom, une URL, ou tout texte expliquant la provenance du dépôt**
 
-```bash
-jeuCouleur.sh:
+**Label: Nom du dépôt**
 
-#!/bin/bash
+**// Suite: stable**
 
-for fg in 1 4 5 7 30 31 32 33 34 35 36 37
-do
-	for bg in $(seq 40 46)
-	do
-		echo -e -n "\e[${fg};${bg}mBash \e[0m"
-	done
-	echo -e "\e[${fg};47mBash \e[0m"
-done
+**Codename: cosmic #le nom de la distribution cible**
+
+**Architectures: i386 amd64 #(architectures cibles)**
+
+**Components: universe #(correspond à notre cas)**
+
+**Description: Une description du dépôt**
+
+**4. Dans le dossier repo-cpe, générez l’arborescence du dépôt avec la commande
+reprepro -b . export**
+
+**5. Copiez le paquet origine-commande.deb créé précédemment dans le dossier packages du dépôt, puis,
+à la racine du dépôt, exécutez la commande**
 
 ```
+reprepro -b . includedeb cosmic origine-commande.deb
+```
 
-*Résultat :*
+**afin que votre paquet soit inscrit dans le dépôt.**
 
-![colored Bash syntax](https://github.com/cpe-lyon/tp-2-girerd_retureau/blob/master/couleurBashResultat.png)
+**6. Il faut à présent indiquer à apt qu’il existe un nouveau dépôt dans lequel il peut trouver des logiciels.
+Pour cela, créez (avec sudo) dans le dossier /etc/apt/sources.list.d le fichier repo-cpe.list
+contenant :**
+
+```
+deb file:/home/VOTRE_NOM/repo-cpe cosmic multiverse
+```
+
+**(cette ligne reprend la configuration du dépôt, elle est à adapter au besoin)**
+
+**7. Lancez la commande sudo apt update.**
+
+**Féliciations ! Votre dépôt est désormais pris en compte ! ... Enfin, pas tout à fait... Si vous regardez
+la sortie d’apt update, il est précidé que le dépôt ne peut être pris en compte car il n’est pas signé.
+La signature permet de vérifier qu’un paquet provient bien du bon dépôt. On doit donc signer notre
+dépôt.**
+
+#### Signature du dépôt avec GPG
+
+**GPG est la version GNU du protocole PGP (Pretty Good Privacy), qui permet d’échanger des données de
+manière sécurisée. Ce système repose sur la notion de clés de chiffrement asymétriques (une clé publique et
+une clé privée)**
+
+**1. Commencez par créer une nouvelle paire de clés avec la commande**
+
+```
+gpg --gen-key
+```
+
+**Attention ! N’oubliez pas votre passphrase !!!**
+
+**2. Ajoutez à la configuration du dépôt (fichier distributions la ligne suivante :
+SignWith: yes**
+
+**3. Ajoutez la clé à votre dépôt :**
+
+```
+reprepro --ask-passphrase -b . export
+```
+
+**Attention ! Cette méthode n’est pas sécurisée et obsolète ; dans un contexte professionnel, on utiliserait
+plutot un gpg-agent.**
+
+**4. Ajoutez votre clé publique à votre dépôt avec la commande**
+
+```
+gpg --export -a "auteur" > public.key
+```
+
+**5. Enfin, ajoutez cette clé à la liste des clés fiables connues de apt :**
+
+```
+sudo apt-key add public.key
+```
+
+**Félicitations ! La configuration est (enfin) terminée ! Vérifiez que vous pouvez installer votre paquet comme
+n’importe quel autre paquet.**
+
+### Exercice 8 :  Installation d’un logiciel à partir du code source
+
+**Lorsqu’un logiciel n’est disponible ni dans les dépôts officiels, ni dans un PPA, ou encore parce qu’on
+souhaite n’installer qu’une partie de ses fonctionnalités, on peut se tourner vers la compilation du code
+source.
+Malheureusement, cette installation ”à la main” fait qu’on ne propose pas des bénéfices de la gestion de
+paquets apportée par dpkg ou apt. Heureusement, il est possible de transformer un logiciel installé ”à la
+main” en un paquet, et de le gérer ensuite avec apt ; c’est ce que permet par exemple checkinstall.**
+
+**1. Commencez par cloner le dépôt git suivant :**
+
+```
+git clone https://github.com/jubalh/nudoku
+```
+
+**Ceci permet de récupérer en local le code source du logiciel nudoku.**
+
+**2. Rendez vous dans le dossier nudoku qui vient d’être créé et lancez la commande autoreconf -i (ainsi
+que spécifié dans le fichier README.md). A vous d’installer les éventuels paquets manquants (un
+peu d’aide : pour résoudre le problème de la macro AM_GNU_GETTEXT manquante, installez le paquet
+gettext). Relancez la commande `autoreconf -i` après chaque paquet installé jusqu’à ce
+qu’elle se termine sans erreur.**
+
+**3. Exécutez le script configure**
+
+**4. Normalement, à cette étape on exécute la commande make install, qui procède à la compilation
+proprement dite et à l’installation (copie des fichiers compilés dans leur dossier de destination). Mais
+dans notre cas, on va demander à checkinstall de s’en charger et de créer un paquet au format .deb :
+sudo checkinstall
+Le logiciel est à présent installé (exécutez nudoku pour vous en assurer) ; on peut vérifier par exemple
+avec aptitude qu’il provient bien du paquet qu’on a créé avec checkinstall.**
