@@ -22,32 +22,94 @@
 
 **1. Quels sont les 5 derniers paquets installés sur votre machine ?**
 
+```bash
+grep " install " /var/log/dpkg.log | tail -5
+```
+
+*Résultats :*
+
+```
+2020-02-28 14:41:46 install libbinutils:amd64 <none> 2.30-21ubuntu1~18.04.2
+2020-02-28 14:41:46 install binutils-x86-64-linux-gnu:amd64 <none> 2.30-21ubuntu1~18.04.2
+2020-02-28 14:41:46 install binutils:amd64 <none> 2.30-21ubuntu1~18.04.2
+2020-02-28 14:41:46 install java-common:all <none> 0.68ubuntu1~18.04.1
+2020-02-28 14:41:47 install oracle-java11-installer-local:amd64 <none> 11.0.6-2~linuxuprising0
+```
 
 &nbsp;
 
 **2. Utiliser dpkg et apt pour compter le nombre de paquets installés (ne pas hésiter à consulter le manuel !).
 Comment explique-t-on la (petite) différence de comptage ?**
 
+```bash
+dpkg --list | wc -l
+```
+
+*Résultats :*
+
+```
+525
+```
+
+```bash
+apt list --installed | wc -l
+```
+
+*Résultats :*
+
+```
+521
+```
+
+*La différence de comptage est due à ???*q
 
 &nbsp;
 
 **3. Combien de paquets sont disponibles en téléchargement ?**
 
+```bash
+sudo apt-cache pkgnames | wc -l
+```
+
+*Résultats : *
+
+```bash
+65462
+```
 
 &nbsp;
 
 **4. Créer un alias “maj” qui met à jour le système**
 
+*Dans le fichier .bash_aliases, on va écrire la ligne suivante :*
+
+```bash
+alias maj='apt update & upgrade'
+```
+
+*Puis on tape la commande :*
+
+```
+source .bashrc
+```
+
+*Cela permet de recharger le fichier .bashrc et ainsi actualiser les alias.*
 
 &nbsp;
 
 **5. A quoi sert le paquet fortunes ? Installez-le.**
 
+*Le paquet fortunes permet d'afficher de petits messages, des citations, des proverbes dans le terminal.*
 
 &nbsp;
 
 **6. Quels paquets proposent de jouer au sudoku ?**
 
+* *xenial*
+* *bionic*
+* *disco*
+* *eoan*
+* *focal*
 
 &nbsp;
 
