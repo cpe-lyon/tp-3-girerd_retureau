@@ -51,6 +51,8 @@ dpkg --list | wc -l
 525
 ```
 
+***
+
 ```bash
 apt list --installed | wc -l
 ```
@@ -71,7 +73,7 @@ apt list --installed | wc -l
 sudo apt-cache pkgnames | wc -l
 ```
 
-*Résultats : *
+*Résultats :*
 
 ```bash
 65462
@@ -115,6 +117,9 @@ source .bashrc
 
 **7. Lister les derniers paquets installés explicitement avec la commande apt install**
 
+```bash
+apt list --manual-installed
+```
 
 &nbsp;
 
@@ -126,7 +131,7 @@ source .bashrc
 
 **1. A partir de quel paquet est installée la commande ls ?**
 
-*Réponse*
+*GNU coreutils*
 
 **2. Comment obtenir cette information en une seule
 commande, pour n’importe quel programme (indice : la réponse est dans le poly de cours 2, dans la liste des
